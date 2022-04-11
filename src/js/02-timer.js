@@ -10,9 +10,10 @@ const dataMinutes = document.querySelector('[data-minutes]');
 const dataSeconds = document.querySelector('[data-seconds]');
 let intervalId = null;
 
-startBtn.setAttribute("disabled", "disabled");
-startBtn.addEventListener('click', onStartBtnClick);
 
+startBtn.addEventListener('click', onStartBtnClick);
+const disactiveStartBtn = () => startBtn.setAttribute("disabled", "disabled");
+disactiveStartBtn();
 const activateStartBtn = () => startBtn.removeAttribute("disabled", "disabled");
 
 const options = {
@@ -39,6 +40,7 @@ function onStartBtnClick() {
         }
         const convertedData = convertMs(timerData);
         populateDate(convertedData);
+        disactiveStartBtn();
     }, 1000)
 }
 
