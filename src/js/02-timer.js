@@ -10,12 +10,8 @@ const dataMinutes = document.querySelector('[data-minutes]');
 const dataSeconds = document.querySelector('[data-seconds]');
 let intervalId = null;
 
-
 startBtn.addEventListener('click', onStartBtnClick);
-const disactiveStartBtn = () => startBtn.setAttribute("disabled", "disabled");
-disactiveStartBtn();
-const activateStartBtn = () => startBtn.removeAttribute("disabled", "disabled");
-
+startBtn.disabled = true;
 const options = {
     enableTime: true,
     time_24hr: true,
@@ -25,10 +21,13 @@ const options = {
         const date = new Date();
         if(selectedDates[0].getTime() < date.getTime()){
             return Notiflix.Notify.warning("Please choose a date in the future");
-        } else {activateStartBtn()};
+        } else {startBtn.disabled = false;};
+        onStartBtnMoreThenHundredDays();
     },
-  };
+  }
+
 const fp = flatpickr(input, options);
+
 function onStartBtnClick() {
     intervalId = setInterval(() => {
         const newDate = new Date();
@@ -40,11 +39,21 @@ function onStartBtnClick() {
         }
         const convertedData = convertMs(timerData);
         populateDate(convertedData);
-        disactiveStartBtn();
+        startBtn.disabled = true;
     }, 1000)
 }
-
-  function convertMs(ms) {
+function onStartBtnMoreThenHundredDays(){
+  const date = new Date();
+  const selectedData = fp.selectedDates[0];
+  const deltaTime = selectedData.getTime() - date.getTime();
+  const convertedDeltaTime = convertMs(deltaTime);
+  populateDate(convertedDeltaTime);
+  if(convertedDeltaTime.days >= 100){
+  startBtn.disabled = true;
+  return Notiflix.Notify.warning("Please choose a number of days less than 100");   
+  }
+}
+function convertMs(ms) {
     const second = 1000;
     const minute = second * 60;
     const hour = minute * 60;
@@ -58,7 +67,7 @@ function onStartBtnClick() {
     return { days, hours, minutes, seconds };
   }
   
-  function addLeadingZero(value) {
+function addLeadingZero(value) {
     return String(value).padStart(2, '0');
 }
 
