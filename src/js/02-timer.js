@@ -10,8 +10,9 @@ const dataMinutes = document.querySelector('[data-minutes]');
 const dataSeconds = document.querySelector('[data-seconds]');
 let intervalId = null;
 
-startBtn.addEventListener('click', onStartBtnClick);
 startBtn.disabled = true;
+startBtn.addEventListener('click', onStartBtnClick);
+
 const options = {
     enableTime: true,
     time_24hr: true,
@@ -42,6 +43,7 @@ function onStartBtnClick() {
         startBtn.disabled = true;
     }, 1000)
 }
+
 function onStartBtnMoreThenHundredDays(){
   const date = new Date();
   const selectedData = fp.selectedDates[0];
