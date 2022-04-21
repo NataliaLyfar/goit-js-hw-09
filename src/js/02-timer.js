@@ -44,17 +44,17 @@ function onStartBtnClick() {
     }, 1000)
 }
 
-function onStartBtnMoreThenHundredDays(){
-  const date = new Date();
-  const selectedData = fp.selectedDates[0];
-  const deltaTime = selectedData.getTime() - date.getTime();
-  const convertedDeltaTime = convertMs(deltaTime);
-  populateDate(convertedDeltaTime);
-  if(convertedDeltaTime.days >= 100){
-  startBtn.disabled = true;
-  return Notiflix.Notify.warning("Please choose a number of days less than 100");   
-  }
-}
+// function onStartBtnMoreThenHundredDays(){
+//   const date = new Date();
+//   const selectedData = fp.selectedDates[0];
+//   const deltaTime = selectedData.getTime() - date.getTime();
+//   const convertedDeltaTime = convertMs(deltaTime);
+  
+//   if(convertedDeltaTime.days >= 100){
+//   startBtn.disabled = true;
+//   return Notiflix.Notify.warning("Please choose a number of days less than 100");   
+//   }
+// }
 function convertMs(ms) {
     const second = 1000;
     const minute = second * 60;
