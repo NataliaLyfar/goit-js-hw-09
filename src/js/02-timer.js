@@ -8,27 +8,25 @@ const dataDays = document.querySelector('[data-days]');
 const dataHours = document.querySelector('[data-hours]');
 const dataMinutes = document.querySelector('[data-minutes]');
 const dataSeconds = document.querySelector('[data-seconds]');
+
 let intervalId = null;
-
-startBtn.disabled = true;
-startBtn.addEventListener('click', onStartBtnClick);
-
 const options = {
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-        const date = new Date();
-        if(selectedDates[0].getTime() < date.getTime()){
-            return Notiflix.Notify.warning("Please choose a date in the future");
+        if(selectedDates[0].getTime() < new Date().getTime()){
+            Notiflix.Notify.warning("Please choose a date in the future");
+            clearInterval(intervalId);
+            updateTimerValue({days: 0, hours: 0, minutes: 0, seconds: 0})
         } else {startBtn.disabled = false;};
-        onStartBtnMoreThenHundredDays();
+        // onStartBtnMoreThenHundredDays();
     },
-  }
-
+  };
 const fp = flatpickr(input, options);
 
+startBtn.addEventListener('click', onStartBtnClick);
 function onStartBtnClick() {
     intervalId = setInterval(() => {
         const newDate = new Date();
@@ -39,22 +37,10 @@ function onStartBtnClick() {
             return;
         }
         const convertedData = convertMs(timerData);
-        populateDate(convertedData);
+        updateTimerValue(convertedData);
         startBtn.disabled = true;
     }, 1000)
-}
-
-// function onStartBtnMoreThenHundredDays(){
-//   const date = new Date();
-//   const selectedData = fp.selectedDates[0];
-//   const deltaTime = selectedData.getTime() - date.getTime();
-//   const convertedDeltaTime = convertMs(deltaTime);
-  
-//   if(convertedDeltaTime.days >= 100){
-//   startBtn.disabled = true;
-//   return Notiflix.Notify.warning("Please choose a number of days less than 100");   
-//   }
-// }
+};
 function convertMs(ms) {
     const second = 1000;
     const minute = second * 60;
@@ -67,15 +53,24 @@ function convertMs(ms) {
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   
     return { days, hours, minutes, seconds };
-  }
-  
+  };
 function addLeadingZero(value) {
     return String(value).padStart(2, '0');
-}
-
-function populateDate(config) {
+};
+function updateTimerValue(config) {
   dataDays.textContent = addLeadingZero(config.days);
   dataHours.textContent = addLeadingZero(config.hours);
   dataMinutes.textContent = addLeadingZero(config.minutes);
   dataSeconds.textContent = addLeadingZero(config.seconds);
-} 
+};
+// function onStartBtnMoreThenHundredDays(){
+//   const date = new Date();
+//   const selectedData = fp.selectedDates[0];
+//   const deltaTime = selectedData.getTime() - date.getTime();
+//   const convertedDeltaTime = convertMs(deltaTime);
+  
+//   if(convertedDeltaTime.days >= 100){
+//   startBtn.disabled = true;
+//   return Notiflix.Notify.warning("Please choose a number of days less than 100");   
+//   }
+// }

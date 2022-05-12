@@ -16,8 +16,18 @@ img {
   display: block;
   max-width: 100%;
 }
-input {
-  margin-bottom: 10px;
+ .flatpickr-input {
+  margin-bottom: 10px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  /* text-shadow: 2px 2px 20px #fff, 5px 5px 5px #000000 !important; */
+  font-family: serif !important;
+}
+.timer-start{
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: serif;
 }
 .timer {
   display: flex;
@@ -31,13 +41,14 @@ input {
   margin: 10px;
 }
 .value {
-  font-size: 32px;
+  font-size: 20px;
   font-weight: 600;
- 
+  text-shadow: 2px 2px 20px #fff, 5px 5px 5px #000000;
 }
 .label {
   text-transform: uppercase;
-  font-size: smaller;
+  font-size: 18px;
   font-weight: 500;
-  
+  text-shadow: 2px 2px 20px #fff, 5px 5px 5px #000000;
+  font-family: serif;
 }

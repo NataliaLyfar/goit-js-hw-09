@@ -1,33 +1,28 @@
 import Notiflix from 'notiflix';
+
 const form = document.querySelector('form');
-form.addEventListener('submit', onFormSubmit);
-form.addEventListener('input', onFormInput)
 
-let dataForm = {};
-function onFormInput(e) {
-  dataForm[e.target.name] = e.target.value;
-}
-function createPromise(position, delay) {
+const createPromise = (position, delay) => {
   return new Promise((resolve, reject) => {
-  const shouldResolve = Math.random() > 0.3;
-  if (shouldResolve) {
-    resolve(`✅ Fulfilled promise ${position} in ${delay}ms`)
-  } else {
-    reject(`❌ Rejected promise ${position} in ${delay}ms`)
-  }
-})
-}
-
-function onFormSubmit(e){
+    const shouldResolve = Math.random() > 0.3;
+    if (shouldResolve) {
+      resolve(`✅ Fulfilled promise ${position} in ${delay}ms`);
+    }
+    reject(`❌ Rejected promise ${position} in ${delay}ms`);
+  });
+};
+const onFormSubmit = e => {
   e.preventDefault();
-  let time = Number(dataForm.delay);
-  for(let i=0; i < dataForm.amount; i +=1){
+  const delay = e.currentTarget.elements.delay.value;
+  const step = e.currentTarget.elements.step.value;
+  const amount = e.currentTarget.elements.amount.value;
+  for (let i = 0; i < amount; i += 1) {
     setTimeout(() => {
-createPromise(i + 1, time + i * Number(dataForm.step))
-  .then(message => Notiflix.Notify.success(message)
-  )
-  .catch(message => Notiflix.Notify.failure(message)
-  );
-}, time + i * Number(dataForm.step));
-  }
-}
+      createPromise(i + 1, +delay + i * +step)
+        .then(message => Notiflix.Notify.success(message))
+        .catch(message => Notiflix.Notify.failure(message));
+    }, +delay + i * +step);
+  };
+  e.currentTarget.reset();
+};
+form.addEventListener('submit', onFormSubmit);
